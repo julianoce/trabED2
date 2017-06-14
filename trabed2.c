@@ -53,6 +53,27 @@ void imprime(char*arq){
   fclose(fp);
 }
 
+FILE*busca(char*arq, int ch){
+  FILE * fp = fopen(arq, "rb");
+  if(!fp) exit(1);
+  TAB*aux;
+  fseek(fp, 0, SEEK_SET);
+  fread(&aux, sizeof(TAB), 1, fp);
+  FILE * resp = NULL;
+  if(aux){
+    int i = 0;
+    while(i < aux->nchaves && ch > aux->chave[i]) i++;
+    if(i < aux->nchaves && ch == aux->chave[i]) return fp;
+    if(aux->folha) return resp;
+    else{
+      for(int j = 0; j<aux->narqs; j++){
+        return busca(aux->nomeArq[j], ch);
+      }
+    }
+  }
+  fclose(fp);
+}
+
 int main(){
   cria("ata.dat", t);
   int teclado;
